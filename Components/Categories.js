@@ -30,7 +30,7 @@ export default class Categories extends Component {
     });
     getSermonList(key).then(data => {
       this.props.navigator.push({
-        title: `${_.capitalize(key)} Sermon`,
+        title: _.capitalize(key),
         component: SermonList,
         passProps: {sermonList: data, category: key},
       });

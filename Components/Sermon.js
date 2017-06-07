@@ -3,8 +3,9 @@ import React, { Component } from 'react';
 import Sound from 'react-native-sound';
 import { Player, MediaStates } from 'react-native-audio-toolkit';
 import ImageSlider from 'react-native-image-slider';
+import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { ActivityIndicator, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { ActivityIndicator, Image, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 import { getSermonSlides } from '../Utils/api';
 
 function decode(str) {
@@ -134,6 +135,8 @@ export default class Sermon extends Component {
       }
     });
 
+    console.log(this.state.slides);
+
     return (
       <View style={styles.container}>
         <View style={styles.info}>
@@ -186,11 +189,21 @@ export default class Sermon extends Component {
             )}
           </View>
         </TouchableHighlight>
-        <View style={styles.slide}>
-          <ImageSlider
-            images={this.state.slides}
-            height={220}/>
-        </View>
+        <Swiper
+          height={200} horizontal={true}
+          style={styles.sliders}
+          loop
+          showsButtons>
+          {this.state.slides.map(slide => (
+          <View style={styles.slide}>
+            <Image
+              source={{uri: slide}}
+              key={slide}
+              style={{flex: 1, width: 350, height: 200}}
+              resizeMode='stretch'/>
+          </View>
+          ))}
+        </Swiper>
       </View>
     );
   }
@@ -214,6 +227,7 @@ var styles = StyleSheet.create({
   },
   infoMedia: {
     alignItems: 'center',
+    alignContent: 'center',
     backgroundColor: '#ccc',
     borderRadius: 30,
     display: 'flex',
@@ -271,9 +285,12 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   // Slide
+  slides: {
+  },
   slide: {
     backgroundColor: '#000',
     flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-  }
+  },
 });
