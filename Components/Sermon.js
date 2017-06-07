@@ -2,14 +2,31 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import Sound from 'react-native-sound';
 import { Player, MediaStates } from 'react-native-audio-toolkit';
-import ImageSlider from 'react-native-image-slider';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { ActivityIndicator, Image, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { ActivityIndicator, Dimensions, Image, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 import { getSermonSlides } from '../Utils/api';
 
 function decode(str) {
   return unescape(decodeURI(str));
+}
+
+function mapImageSizes(imageUrls) {
+  return new Promise((resolve, reject) => {
+    let data = [];
+    imageUrls.forEach((imageUrl, i) => {
+      Image.getSize(imageUrl, (width, height) => {
+        data.push({
+          width,
+          height,
+          url: imageUrl,
+        });
+        if (data.length === imageUrls.length) {
+          resolve(data);
+        }
+      });
+    })
+  });
 }
 
 function getColor(str) {
@@ -119,11 +136,8 @@ export default class Sermon extends Component {
 
     getSermonSlides(category, grouptag, slideName).then((data) => {
       const rootPath = 'http://media.efcsydney.org/data/thumb/960x960/sermon';
-      const images = _.map(data.items, item => {
-        return `${rootPath}/${category}/${grouptag}/${slideName}/${item.grouptag}`;
-      });
-
-      this.setState({'slides': images});
+      const imageUrls = data.items.map(i => `${rootPath}/${category}/${grouptag}/${slideName}/${i.grouptag}`);
+      mapImageSizes(imageUrls).then(data => this.setState({'slides': data}));
     });
   }
   render() {
@@ -134,8 +148,6 @@ export default class Sermon extends Component {
         backgroundColor: getColor(speaker)
       }
     });
-
-    console.log(this.state.slides);
 
     return (
       <View style={styles.container}>
@@ -189,21 +201,28 @@ export default class Sermon extends Component {
             )}
           </View>
         </TouchableHighlight>
-        <Swiper
-          height={200} horizontal={true}
-          style={styles.sliders}
-          loop
-          showsButtons>
-          {this.state.slides.map(slide => (
-          <View style={styles.slide}>
-            <Image
-              source={{uri: slide}}
-              key={slide}
-              style={{flex: 1, width: 350, height: 200}}
-              resizeMode='stretch'/>
-          </View>
-          ))}
-        </Swiper>
+        <View style={styles.swiper}>
+          <Swiper
+            height={200}
+            horizontal={true}
+            loop
+            showsButtons>
+            {this.state.slides.map(slide => {
+              const viewWidth = Dimensions.get('window').width;
+              const slideHeight = viewWidth / slide.width * slide.height;
+              return (
+                <View
+                  key={slide}
+                  style={{width: viewWidth, height: slideHeight}}>
+                  <Image
+                    source={{uri: slide.url}}
+                    style={{flex: 1, width: viewWidth, height: slideHeight}}
+                    resizeMode='contain'/>
+                </View>
+              );
+            })}
+          </Swiper>
+        </View>
       </View>
     );
   }
@@ -285,9 +304,7 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   // Slide
-  slides: {
-  },
-  slide: {
+  swiper: {
     backgroundColor: '#000',
     flex: 1,
     justifyContent: 'center',
