@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {
   ActivityIndicator,
   Image,
-  ScrollView,
+  ListView,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -11,36 +11,18 @@ import {
 } from 'react-native';
 import Sermon from './Sermon';
 import { fetchFile } from '../Utils/api';
-import { decode } from '../Utils/helper';
-
-function filter(items) {
-  return (items = _(items)
-    .filter({ isdir: '1' })
-    .filter(item => !item.ishide || item.ishide === '0')
-    .filter(item => !_.isUndefined(item.grouptag))
-    .orderBy('grouptag', 'desc')
-    .value());
-}
-
-function normalize(item, path = '/sermon') {
-  path = `${path}/${item.grouptag}`;
-  return {
-    _raw: item,
-    path,
-    date: item.date,
-    dirinfo: item.dirinfo,
-    file: item.grouptag,
-    key: `${item.grouptag}-${item.name}`,
-    speaker: decode(item.Speaker || ''),
-    thumb: `http://media.efcsydney.org/data/thumb/200x200${path}/.thumb.jpg`,
-    title: decode(item.title || item.name || 'Untitled')
-  };
-}
+import { filterList, decode, normalizeItem } from '../Utils/helper';
 
 export default class SermonList extends Component {
   constructor(props) {
     super(props);
+
+    this.ds = new ListView.DataSource({
+      rowHasChanged: (item1, item2) => item1.key !== item2.key
+    });
+
     this.state = {
+      dataSource: this.ds.cloneWithRows(this.props.items),
       isLoading: false,
       error: false
     };
@@ -72,32 +54,35 @@ export default class SermonList extends Component {
         error: ''
       });
     });
+  };
+  renderItem(item) {
+    item = normalizeItem(item, this.props.path);
+    return (
+      <TouchableHighlight
+        key={item.key}
+        style={styles.itemWrap}
+        onPress={this.handlePress.bind(this, item)}
+        underlayColor="#88d4f5">
+        <View style={styles.item}>
+          <View style={styles.itemBody}>
+            <Text style={styles.date}>{item.date}</Text>
+            <Text style={styles.title}>{item.title}</Text>
+            <Text>{item.speaker}</Text>
+          </View>
+          <View style={styles.itemMedia}>
+            <Image
+              source={{ uri: item.thumb, cache: 'force-cache' }}
+              style={styles.image}
+            />
+          </View>
+        </View>
+      </TouchableHighlight>
+    );
   }
   render() {
-    const items = filter(this.props.items).map(item =>
-      normalize(item, this.props.path)
-    );
-
     return (
-      <ScrollView style={styles.container}>
-        {items.map(item => (
-            <TouchableHighlight
-              key={item.key}
-              style={styles.itemWrap}
-              onPress={this.handlePress.bind(this, item)}
-              underlayColor="#88d4f5">
-              <View style={styles.item}>
-                <View style={styles.itemBody}>
-                  <Text style={styles.date}>{item.date}</Text>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <Text>{item.speaker}</Text>
-                </View>
-                <View style={styles.itemMedia}>
-                  <Image source={{ uri: item.thumb }} style={styles.image} />
-                </View>
-              </View>
-            </TouchableHighlight>
-        ))}
+      <View style={styles.container}>
+        <ListView dataSource={this.state.dataSource} renderRow={this.renderItem.bind(this)} />
         {this.state.isLoading &&
           <ActivityIndicator
             color="#fff"
@@ -105,7 +90,7 @@ export default class SermonList extends Component {
             animating={true}
             size="large"
           />}
-      </ScrollView>
+      </View>
     );
   }
 }

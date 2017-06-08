@@ -150,7 +150,7 @@ export default class Sermon extends Component {
                   key={slide}
                   style={{ width: viewWidth, height: 200}}>
                   <Image
-                    source={{ uri: slide.url }}
+                    source={{ uri: slide.url, cache: 'force-cache' }}
                     style={{ width: viewWidth, height: 200}}
                     resizeMode="contain"
                   />

@@ -9,20 +9,8 @@ import {
   View
 } from 'react-native';
 import { fetchFile } from '../Utils/api';
-import { decode } from '../Utils/helper';
+import { filterList, decode, normalizeItem } from '../Utils/helper';
 import SermonList from './SermonList';
-
-function normalize(item) {
-  return {
-    _raw: item,
-    key: `${item.grouptag}-${item.name}`,
-    dirinfo: item.dirinfo,
-    name: _.capitalize(item.grouptag),
-    file: item.grouptag,
-    thumb: `http://media.efcsydney.org/data/thumb/200x200/sermon/${item.grouptag}/${item.grouptag}/.thumb.jpg`,
-    title: decode(item.title || item.name || 'Untitled')
-  };
-}
 
 function translate(name) {
   if (name === 'Mandarin') {
@@ -62,7 +50,7 @@ export default class Categories extends Component {
           passProps: { 
             path, 
             info: data.dirinfo,
-            items: data.items
+            items: filterList(data.items)
           }
         });
 
@@ -79,7 +67,7 @@ export default class Categories extends Component {
       });
   };
   render() {
-    const items = this.props.items.map(normalize);
+    const items = this.props.items.map(normalizeItem);
 
     return (
       <View style={styles.container}>
