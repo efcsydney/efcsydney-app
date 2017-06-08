@@ -2986,10 +2986,6 @@ react-native-sound@^0.10.1:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.1.tgz#c6afa5114cea6e39f479a2c67d6d843894ed745c"
 
-react-native-svg-image@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-svg-image/-/react-native-svg-image-1.1.1.tgz#12168feacfdceef5d1a10012ec7b545ce8fa9a8c"
-
 react-native-svg@^5.1.8:
   version "5.1.8"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-5.1.8.tgz#bdb9bc6a8693852751f7faa6598ebcb3d1be48ce"

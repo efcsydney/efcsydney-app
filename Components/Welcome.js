@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Image,
-  Text,
-  StyleSheet
-} from 'react-native';
+import { View, Image, Text, StyleSheet } from 'react-native';
 import Categories from './Categories';
-import {getCategories, fetchFile} from '../Utils/api';
-import SVGImage from 'react-native-svg-image';
+import { fetchFile } from '../Utils/api';
 
-export default class Main extends Component {
+export default class Welcome extends Component {
   componentDidMount() {
     const path = '/sermon';
     fetchFile(path).then(data => {
@@ -17,7 +11,7 @@ export default class Main extends Component {
         title: '分類',
         component: Categories,
         passProps: {
-          path, 
+          path,
           info: data.dirinfo,
           items: data.items
         }
@@ -26,37 +20,34 @@ export default class Main extends Component {
   }
   render() {
     return (
-        <View style={styles.container}>
-          <View style={styles.logoWrapper}>
-            <Image
-              style={styles.logo}
-              source={require('./logo.png')}/>
-          </View>
-          <View style={{flex: 2, marginLeft: -15}}>
-            <Text style={styles.welcome}>
-              Sermons
-            </Text>
-            <Text style={styles.instructions}>
-                Evangelical Formosan Church of Sydney
-            </Text>
-          </View>
+      <View style={styles.container}>
+        <View style={styles.logoWrapper}>
+          <Image style={styles.logo} source={require('../Assets/logo.png')} />
         </View>
+        <View style={{ flex: 2, marginLeft: -15 }}>
+          <Text style={styles.welcome}>
+            Sermons
+          </Text>
+          <Text style={styles.instructions}>
+            Evangelical Formosan Church of Sydney
+          </Text>
+        </View>
+      </View>
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#eee',
+    backgroundColor: '#eee'
   },
   welcome: {
     fontSize: 32,
     fontWeight: '700',
-    marginBottom: 5,
+    marginBottom: 5
   },
   logoWrapper: {
     flex: 1,
@@ -66,12 +57,12 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 85,
-    height: 95,
+    height: 95
   },
   instructions: {
     fontSize: 10,
     fontStyle: 'italic',
     color: '#999999',
-    marginLeft: 3,
+    marginLeft: 3
   }
 });

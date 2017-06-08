@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Dimensions,
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -144,7 +145,6 @@ export default class Sermon extends Component {
             {slides.map(slide => {
               const viewWidth = Dimensions.get('window').width;
               const slideHeight = viewWidth / slide.width * slide.height;
-              console.log(viewWidth, slideHeight);
               return (
                 <View
                   key={slide}
@@ -160,9 +160,9 @@ export default class Sermon extends Component {
           </Swiper>
         </View>
         {(!_.isEmpty(info.desc)) && (
-        <View style={styles.descWrap}>
+        <ScrollView style={styles.descWrap}>
           <Text style={styles.desc}>{decode(info.desc)}</Text>
-        </View>
+        </ScrollView>
         )}
       </View>
     );
