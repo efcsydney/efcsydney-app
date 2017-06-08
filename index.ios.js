@@ -1,30 +1,22 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
   NavigatorIOS,
   StyleSheet,
-  Text,
-  View
 } from 'react-native';
-import Main from './Components/Main';
+import Welcome from './Components/Welcome';
 
 export default class efcSermons2 extends Component {
   render() {
     return (
       <NavigatorIOS
-                ref="navigator2"
         style={styles.container}
-                barTintColor="#fff"
+        barTintColor="#f9bd49"
         initialRoute={{
-          title: 'Sermons',
-          component: Main,
-        }}/>
+          title: '雪梨台福教會 - 證道資料',
+          component: Welcome
+        }}
+      />
     );
   }
 }
