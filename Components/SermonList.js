@@ -54,7 +54,7 @@ export default class SermonList extends Component {
         error: ''
       });
     });
-  };
+  }
   renderItem(item) {
     item = normalizeItem(item, this.props.path);
     return (
