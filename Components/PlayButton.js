@@ -1,6 +1,7 @@
 import React from 'react';
 import { 
   ActivityIndicator, 
+  StyleSheet,
   TouchableHighlight, 
   View 
 } from 'react-native';
@@ -22,7 +23,7 @@ export default ({ isLoading, isPlaying, onPress }) => {
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
     backgroundColor: '#008cc9',
@@ -36,4 +37,4 @@ const styles = {
     color: '#fff',
     fontSize: 18
   }
-};
+});

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Player } from 'react-native-audio-toolkit';
 import Swiper from 'react-native-swiper';
 import {
-  ActivityIndicator,
   Dimensions,
   Image,
   ScrollView,
@@ -18,54 +17,16 @@ import {
   mapImageSizes,
   getColor
 } from '../Utils/helper';
-import PlayButton from './PlayButton';
+import InlinePlayer from './InlinePlayer';
 
 export default class Sermon extends Component {
   constructor(props) {
     super(props);
     this.player = null;
     this.state = {
-      slides: [],
-      isLoading: false,
-      isPlaying: false,
-      error: false
+      slides: []
     };
   }
-  handlePress = items => {
-    const { isLoading, isPlaying } = this.state;
-    const { path } = this.props;
-    const player = this.player;
-
-    if (isLoading) {
-      return;
-    }
-
-    if (player && isPlaying) {
-      this.setState({ isPlaying: false });
-      player.pause();
-      return;
-    }
-
-    if (player && !isPlaying) {
-      this.setState({ isPlaying: true });
-      player.play();
-      return;
-    }
-
-    const fileName = findNameByExtension(items, 'mp3');
-    const url = `http://media.efcsydney.org/data/file${path}/${fileName}`;
-
-    this.player = new Player(url);
-    this.setState({ isLoading: true });
-
-    this.player.prepare(() => {
-      this.setState({
-        isLoading: false,
-        isPlaying: true
-      });
-      this.player.play();
-    });
-  };
   componentDidMount() {
     const { items, path } = this.props;
 
@@ -97,6 +58,8 @@ export default class Sermon extends Component {
       }
     });
     const hasHeader = !_.isEmpty(speaker) && !_.isEmpty(info.date);
+    const fileName = findNameByExtension(items, 'mp3');
+    const url = `http://media.efcsydney.org/data/file${path}/${fileName}`;
 
     return (
       <View style={styles.container}>
@@ -121,11 +84,7 @@ export default class Sermon extends Component {
               <Text style={styles.titleScript}>{decode(info.Scripture)}</Text>}
           </View>
           <View style={styles.titleMedia}>
-            <PlayButton
-              isLoading={this.state.isLoading}
-              isPlaying={this.state.isPlaying}
-              onPress={this.handlePress.bind(this, items)}
-            />
+            <InlinePlayer url={url}/>
           </View>
         </View>
         <View style={styles.swiperWrap}>
