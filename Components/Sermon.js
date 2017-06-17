@@ -16,6 +16,7 @@ import {
 } from '../Utils/helper';
 import InlinePlayer from './InlinePlayer';
 import SlideShow from './SlideShow';
+import Orientation from 'react-native-orientation';
 
 export default class Sermon extends Component {
   constructor(props) {
@@ -24,9 +25,22 @@ export default class Sermon extends Component {
       slides: []
     };
   }
+  componentWillMount() {
+    // const initial = Orientation.getInitialOrientation();
+    // if (initial === 'PORTRAIT') {
+    //   console.log('portrait');
+    //   // do something
+    // } else {
+    //   console.log('landscape');
+    //   // do something else
+    // }
+  }
   componentDidMount() {
     const { items, path } = this.props;
 
+    Orientation.lockToPortrait();
+
+    //  Orientation.addOrientationListener(this._orientationDidChange);
     if (!items || !items.length) {
       return;
     }

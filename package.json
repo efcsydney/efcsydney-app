@@ -15,6 +15,7 @@
 		"react-native-audio-toolkit": "^1.0.5",
 		"react-native-audioplayer": "^0.2.0",
 		"react-native-image-slider": "^1.1.5",
+		"react-native-orientation": "git+https://github.com/yamill/react-native-orientation.git",
 		"react-native-sound": "^0.10.1",
 		"react-native-svg": "^5.1.8",
 		"react-native-swiper": "^1.5.4",

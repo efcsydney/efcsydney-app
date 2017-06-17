@@ -2982,6 +2982,10 @@ react-native-image-slider@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/react-native-image-slider/-/react-native-image-slider-1.1.5.tgz#1fa8537d1e0477c41d6c3a05f3fe02ffcdddd150"
 
+"react-native-orientation@git+https://github.com/yamill/react-native-orientation.git":
+  version "1.17.0"
+  resolved "git+https://github.com/yamill/react-native-orientation.git#9a796cf0790491bd7d96b905496dc43383316d0e"
+
 react-native-sound@^0.10.1:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.1.tgz#c6afa5114cea6e39f479a2c67d6d843894ed745c"
