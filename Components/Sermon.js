@@ -1,10 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Player } from 'react-native-audio-toolkit';
-import Swiper from 'react-native-swiper';
 import {
-  Dimensions,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -18,11 +15,11 @@ import {
   getColor
 } from '../Utils/helper';
 import InlinePlayer from './InlinePlayer';
+import SlideShow from './SlideShow';
 
 export default class Sermon extends Component {
   constructor(props) {
     super(props);
-    this.player = null;
     this.state = {
       slides: []
     };
@@ -88,21 +85,7 @@ export default class Sermon extends Component {
           </View>
         </View>
         <View style={styles.swiperWrap}>
-          <Swiper height={200} horizontal={true} loop={false} showsButtons>
-            {slides.map(slide => {
-              const viewWidth = Dimensions.get('window').width;
-              const slideHeight = viewWidth / slide.width * slide.height;
-              return (
-                <View key={slide} style={{ width: viewWidth, height: 200 }}>
-                  <Image
-                    source={{ uri: slide.url, cache: 'force-cache' }}
-                    style={{ width: viewWidth, height: 200 }}
-                    resizeMode="contain"
-                  />
-                </View>
-              );
-            })}
-          </Swiper>
+          <SlideShow slides={slides}/>
         </View>
         {!_.isEmpty(info.desc) &&
           <ScrollView style={styles.descWrap}>
