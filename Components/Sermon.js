@@ -2,7 +2,6 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { Player } from 'react-native-audio-toolkit';
 import Swiper from 'react-native-swiper';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   ActivityIndicator,
   Dimensions,
@@ -10,7 +9,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableHighlight,
   View
 } from 'react-native';
 import { fetchFile } from '../Utils/api';
@@ -20,6 +18,7 @@ import {
   mapImageSizes,
   getColor
 } from '../Utils/helper';
+import PlayButton from './PlayButton';
 
 export default class Sermon extends Component {
   constructor(props) {
@@ -94,64 +93,51 @@ export default class Sermon extends Component {
     const speaker = decode(info.Speaker);
     const infoMediaStyle = StyleSheet.create({
       overwrite: {
-        backgroundColor: getColor(speaker)
+        backgroundColor: speaker ? getColor(speaker) : 'transparent'
       }
     });
+    const hasHeader = !_.isEmpty(speaker) && !_.isEmpty(info.date);
 
     return (
       <View style={styles.container}>
-        {(!_.isEmpty(speaker) && !_.isEmpty(info.date)) && (
-        <View style={styles.info}>
-          <View style={[styles.infoMedia, infoMediaStyle.overwrite]}>
-            <Text style={styles.infoAvatar}>{speaker.charAt(0)}</Text>
-          </View>
-          <View style={styles.infoBody}>
-            <Text style={styles.infoSpeaker}>{speaker}</Text>
-            <Text style={styles.infoDate}>{decode(info.date)}</Text>
-          </View>
-        </View>
-        )}
+        {hasHeader &&
+          <View style={styles.info}>
+            <View style={[styles.infoMedia, infoMediaStyle.overwrite]}>
+              <Text style={styles.infoAvatar}>{speaker.charAt(0)}</Text>
+            </View>
+            <View style={styles.infoBody}>
+              {!_.isEmpty(speaker) &&
+                <Text style={styles.infoSpeaker}>{speaker}</Text>}
+              {!_.isEmpty(info.date) &&
+                <Text style={styles.infoDate}>{decode(info.date)}</Text>}
+            </View>
+          </View>}
         <View style={styles.title}>
           <View style={styles.titleBody}>
-            <Text style={styles.titleText}>{info.title | info.name}</Text>
-            {(!_.isEmpty(info.Scripture)) && (
-            <Text style={styles.titleScript}>{decode(info.Scripture)}</Text>
-            )}
+            <Text style={styles.titleText}>
+              {decode(info.title) || info.name}
+            </Text>
+            {!_.isEmpty(info.Scripture) &&
+              <Text style={styles.titleScript}>{decode(info.Scripture)}</Text>}
           </View>
           <View style={styles.titleMedia}>
-            <TouchableHighlight
-              style={styles.play}
+            <PlayButton
+              isLoading={this.state.isLoading}
+              isPlaying={this.state.isPlaying}
               onPress={this.handlePress.bind(this, items)}
-              underlayColor="#007eba">
-              <View>
-                {!this.state.isPlaying &&
-                  !this.state.isLoading &&
-                  <Icon name="play" style={styles.playIcon} />}
-                {this.state.isLoading &&
-                  <ActivityIndicator
-                    style={styles.playIcon}
-                    color="#fff"
-                    animating={true}
-                    size="small"
-                  />}
-                {this.state.isPlaying &&
-                  <Icon name="pause" style={styles.playIcon} />}
-              </View>
-            </TouchableHighlight>
+            />
           </View>
         </View>
         <View style={styles.swiperWrap}>
-          <Swiper height={200} horizontal={true} loop showsButtons>
+          <Swiper height={200} horizontal={true} loop={false} showsButtons>
             {slides.map(slide => {
               const viewWidth = Dimensions.get('window').width;
               const slideHeight = viewWidth / slide.width * slide.height;
               return (
-                <View
-                  key={slide}
-                  style={{ width: viewWidth, height: 200}}>
+                <View key={slide} style={{ width: viewWidth, height: 200 }}>
                   <Image
                     source={{ uri: slide.url, cache: 'force-cache' }}
-                    style={{ width: viewWidth, height: 200}}
+                    style={{ width: viewWidth, height: 200 }}
                     resizeMode="contain"
                   />
                 </View>
@@ -159,11 +145,10 @@ export default class Sermon extends Component {
             })}
           </Swiper>
         </View>
-        {(!_.isEmpty(info.desc)) && (
-        <ScrollView style={styles.descWrap}>
-          <Text style={styles.desc}>{decode(info.desc)}</Text>
-        </ScrollView>
-        )}
+        {!_.isEmpty(info.desc) &&
+          <ScrollView style={styles.descWrap}>
+            <Text style={styles.desc}>{decode(info.desc)}</Text>
+          </ScrollView>}
       </View>
     );
   }
@@ -199,7 +184,7 @@ const styles = StyleSheet.create({
   },
   infoAvatar: {
     color: '#fff',
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   infoBody: {
     flex: 1
@@ -214,40 +199,26 @@ const styles = StyleSheet.create({
   },
   // Title
   title: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     backgroundColor: '#fff',
     display: 'flex',
     flexDirection: 'row',
     padding: 10,
-    height: 60
   },
   titleBody: {
     flex: 2
   },
   titleMedia: {
-    marginLeft: 'auto',
+    marginLeft: 'auto'
   },
   titleText: {
     lineHeight: 24,
     fontWeight: '700',
-    fontSize: 22
+    fontSize: 22,
+    marginBottom: 4
   },
   titleScript: {
     fontSize: 11
-  },
-  // Audio
-  play: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#008cc9',
-    borderRadius: 25,
-    width: 40,
-    height: 40
-  },
-  playIcon: {
-    color: '#fff',
-    fontSize: 18
   },
   // Slide
   swiperWrap: {

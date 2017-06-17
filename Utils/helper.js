@@ -2,6 +2,9 @@ import _ from 'lodash';
 import { Image } from 'react-native';
 
 export function decode(str) {
+  if (!str) {
+    return str;
+ }
   return unescape(decodeURI(str));
 }
 
