@@ -39,7 +39,7 @@ export default class Sermon extends Component {
 
     fetchFile(slidePath).then(data => {
       const rootPath = 'http://media.efcsydney.org/data/thumb/960x960';
-      const urls = data.items.map(
+      const urls = _.sortBy(data.items, ['title']).map(
         i => `${rootPath}/${slidePath}/${i.grouptag}`
       );
       mapImageSizes(urls).then(data => this.setState({ slides: data }));
@@ -84,7 +84,7 @@ export default class Sermon extends Component {
               <Text style={styles.titleScript}>{decode(info.Scripture)}</Text>}
           </View>
           <View style={styles.titleMedia}>
-            <InlinePlayer url={url}/>
+            <InlinePlayer url={url} />
           </View>
         </View>
         <View style={styles.swiperWrap}>
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     display: 'flex',
     flexDirection: 'row',
-    padding: 10,
+    padding: 10
   },
   titleBody: {
     flex: 2
