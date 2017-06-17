@@ -1,9 +1,9 @@
 import React from 'react';
-import { 
-  ActivityIndicator, 
+import {
+  ActivityIndicator,
   StyleSheet,
-  TouchableHighlight, 
-  View 
+  TouchableHighlight,
+  View
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     height: 40,
     justifyContent: 'center',
-    width: 40,
+    width: 40
   },
   icon: {
     color: '#fff',
