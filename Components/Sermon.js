@@ -24,25 +24,19 @@ export default class Sermon extends Component {
     super(props);
     this.state = {
       isLoading: false,
+      orientation: null,
       slides: []
     };
   }
-  componentWillMount() {
-    // const initial = Orientation.getInitialOrientation();
-    // if (initial === 'PORTRAIT') {
-    //   console.log('portrait');
-    //   // do something
-    // } else {
-    //   console.log('landscape');
-    //   // do something else
-    // }
-  }
+  handleOrientationChange = (orientation) => {
+    this.setState({orientation: orientation.toLowerCase()});
+  };
   componentDidMount() {
     const { items, path } = this.props;
 
-    Orientation.lockToPortrait();
+    this.setState({orientation: Orientation.getInitialOrientation().toLowerCase()});
+    Orientation.addOrientationListener(this.handleOrientationChange);
 
-    //  Orientation.addOrientationListener(this._orientationDidChange);
     if (!items || !items.length) {
       return;
     }
@@ -70,17 +64,20 @@ export default class Sermon extends Component {
   }
   componentWillUnmount() {
     if (this.player) this.player.destroy();
+    Orientation.removeOrientationListener(this.handleOrientationChange);
   }
   render() {
     const { path, info, items } = this.props;
-    const { isLoading, slides } = this.state;
+    const { isLoading, orientation, slides } = this.state;
+    const isPortrait = (orientation === 'portrait');
+    const isLandscape = (orientation === 'landscape');
     const speaker = decode(info.Speaker);
     const infoMediaStyle = StyleSheet.create({
       overwrite: {
         backgroundColor: speaker ? getColor(speaker) : 'transparent'
       }
     });
-    const hasHeader = !_.isEmpty(speaker) && !_.isEmpty(info.date);
+    const hasHeader = isPortrait && !_.isEmpty(speaker) && !_.isEmpty(info.date);
     const fileName = findNameByExtension(items, 'mp3');
     const hasAudio = !_.isEmpty(fileName);
     const url = hasAudio
@@ -88,7 +85,7 @@ export default class Sermon extends Component {
       : null;
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, styles[`container--${orientation}`]]}>
         {hasHeader &&
           <View style={styles.info}>
             <View style={[styles.infoMedia, infoMediaStyle.overwrite]}>
@@ -114,14 +111,14 @@ export default class Sermon extends Component {
               <InlinePlayer url={url} />
             </View>}
         </View>
-        <View style={styles.swiperWrap}>
+        <View style={[styles.swiperWrap, styles[`swiperWrap--${orientation}`]]}>
           {!isLoading && (slides.length) === 0 &&
             <Text style={{ color: 'white' }}>No Slides</Text>}
           {isLoading &&
             <ActivityIndicator color="#fff" animating={true} size="small" />}
           {!isLoading && slides.length > 0 && <SlideShow slides={slides} />}
         </View>
-        {!_.isEmpty(info.desc) &&
+        {isPortrait && !_.isEmpty(info.desc) &&
           <ScrollView style={styles.descWrap}>
             <Text style={styles.desc}>{decode(info.desc)}</Text>
           </ScrollView>}
@@ -135,7 +132,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#eee',
+  },
+  'container--portrait': {
     marginTop: 65
+  },
+  'container--landscape': {
+    marginTop: 32
   },
   // Info
   info: {
@@ -199,9 +201,14 @@ const styles = StyleSheet.create({
   // Slide
   swiperWrap: {
     backgroundColor: '#000',
-    height: 250,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  'swiperWrap--landscape': {
+    flex: 2
+  },
+  'swiperWrap--portrait': {
+    height: 250
   },
   // Description
   descWrap: {
