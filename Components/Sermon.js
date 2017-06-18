@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { Player } from 'react-native-audio-toolkit';
 import {
+  ActivityIndicator,
   ScrollView,
   StyleSheet,
   Text,
@@ -22,6 +23,7 @@ export default class Sermon extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       slides: []
     };
   }
@@ -46,22 +48,32 @@ export default class Sermon extends Component {
     }
 
     const slideName = findNameByExtension(items, 'pdf', true);
+    if (!slideName) {
+      this.setState({slides: []});
+    }
     const slidePath = `${path}/${slideName}`;
 
-    fetchFile(slidePath).then(data => {
-      const rootPath = 'http://media.efcsydney.org/data/thumb/960x960';
-      const urls = _.sortBy(data.items, ['title']).map(
-        i => `${rootPath}/${slidePath}/${i.grouptag}`
-      );
-      mapImageSizes(urls).then(data => this.setState({ slides: data }));
-    });
+    this.setState({ isLoading: true });
+    fetchFile(slidePath)
+      .then(data => {
+        const rootPath = 'http://media.efcsydney.org/data/thumb/960x960';
+        const urls = _.sortBy(data.items, ['title']).map(
+          i => `${rootPath}/${slidePath}/${i.grouptag}`
+        );
+        mapImageSizes(urls).then(data =>
+          this.setState({ slides: data, isLoading: false })
+        );
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
   componentWillUnmount() {
     if (this.player) this.player.destroy();
   }
   render() {
     const { path, info, items } = this.props;
-    const { slides } = this.state;
+    const { isLoading, slides } = this.state;
     const speaker = decode(info.Speaker);
     const infoMediaStyle = StyleSheet.create({
       overwrite: {
@@ -70,7 +82,10 @@ export default class Sermon extends Component {
     });
     const hasHeader = !_.isEmpty(speaker) && !_.isEmpty(info.date);
     const fileName = findNameByExtension(items, 'mp3');
-    const url = `http://media.efcsydney.org/data/file${path}/${fileName}`;
+    const hasAudio = !_.isEmpty(fileName);
+    const url = hasAudio
+      ? `http://media.efcsydney.org/data/file${path}/${fileName}`
+      : null;
 
     return (
       <View style={styles.container}>
@@ -94,12 +109,17 @@ export default class Sermon extends Component {
             {!_.isEmpty(info.Scripture) &&
               <Text style={styles.titleScript}>{decode(info.Scripture)}</Text>}
           </View>
-          <View style={styles.titleMedia}>
-            <InlinePlayer url={url} />
-          </View>
+          {hasAudio &&
+            <View style={styles.titleMedia}>
+              <InlinePlayer url={url} />
+            </View>}
         </View>
         <View style={styles.swiperWrap}>
-          <SlideShow slides={slides}/>
+          {!isLoading && (slides.length) === 0 &&
+            <Text style={{ color: 'white' }}>No Slides</Text>}
+          {isLoading &&
+            <ActivityIndicator color="#fff" animating={true} size="small" />}
+          {!isLoading && slides.length > 0 && <SlideShow slides={slides} />}
         </View>
         {!_.isEmpty(info.desc) &&
           <ScrollView style={styles.descWrap}>

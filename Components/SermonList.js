@@ -54,7 +54,7 @@ export default class SermonList extends Component {
         error: ''
       });
     });
-  }
+  };
   renderItem(item) {
     item = normalizeItem(item, this.props.path);
     return (
@@ -69,12 +69,13 @@ export default class SermonList extends Component {
             <Text style={styles.title}>{item.title}</Text>
             <Text>{item.speaker}</Text>
           </View>
-          <View style={styles.itemMedia}>
-            <Image
-              source={{ uri: item.thumb, cache: 'force-cache' }}
-              style={styles.image}
-            />
-          </View>
+          {!_.isEmpty(item.thumb) &&
+            <View style={styles.itemMedia}>
+              <Image
+                source={{ uri: item.thumb, cache: 'force-cache' }}
+                style={styles.image}
+              />
+            </View>}
         </View>
       </TouchableHighlight>
     );
@@ -82,7 +83,10 @@ export default class SermonList extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ListView dataSource={this.state.dataSource} renderRow={this.renderItem.bind(this)} />
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderItem.bind(this)}
+        />
         {this.state.isLoading &&
           <ActivityIndicator
             color="#fff"

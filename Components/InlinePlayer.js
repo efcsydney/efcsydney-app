@@ -17,6 +17,7 @@ export default class InlinePlayer extends Component {
       duration: 0,
       isLoading: false,
       isPlaying: false,
+      isReady: false,
       error: false
     };
   }
@@ -67,7 +68,8 @@ export default class InlinePlayer extends Component {
       this.setState({
         duration: this.player.duration,
         isLoading: false,
-        isPlaying: true
+        isPlaying: true,
+        isReady: true
       });
       this.player.play();
       this.timer = setInterval(() => {
@@ -81,7 +83,7 @@ export default class InlinePlayer extends Component {
     this.setState({ isLoading: true });
   };
   render() {
-    const { currentTime, duration, isLoading, isPlaying } = this.state;
+    const { currentTime, duration, isLoading, isPlaying, isReady } = this.state;
 
     return (
       <View style={styles.wrapper}>
@@ -90,9 +92,11 @@ export default class InlinePlayer extends Component {
           isPlaying={isPlaying}
           onPress={this.handlePress}
         />
+        {isReady && (
         <Text style={styles.info}>
           {formatTime(currentTime)} / {formatTime(duration)}
         </Text>
+        )}
       </View>
     );
   }
