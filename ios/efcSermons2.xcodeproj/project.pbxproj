@@ -38,7 +38,6 @@
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* efcSermons2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* efcSermons2Tests.m */; };
 		3E3AC1C91EE6BD77008E4A59 /* react-native-audioplayer in Resources */ = {isa = PBXBuildFile; fileRef = 3E3AC1C81EE6BD77008E4A59 /* react-native-audioplayer */; };
-		3E3AC25B1EE75899008E4A59 /* logo.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3E3AC25A1EE75899008E4A59 /* logo.svg */; };
 		487696FF29134841AAC5A607 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A6C9A5D8C9F46B3B40DBA25 /* libRNSound.a */; };
 		588B30B0EAE64EDEB18B5C24 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CC5A4B55B3E942BF8E671733 /* EvilIcons.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -335,7 +334,6 @@
 		2D02E4901E0B4A5D006451C7 /* efcSermons2-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "efcSermons2-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A6C9A5D8C9F46B3B40DBA25 /* libRNSound.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSound.a; sourceTree = "<group>"; };
 		3E3AC1C81EE6BD77008E4A59 /* react-native-audioplayer */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "react-native-audioplayer"; path = "../node_modules/react-native-audioplayer"; sourceTree = "<group>"; };
-		3E3AC25A1EE75899008E4A59 /* logo.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = logo.svg; path = ../../logo.svg; sourceTree = "<group>"; };
 		57096DDED4294BAF8092EF38 /* libReactNativeAudioToolkit.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeAudioToolkit.a; sourceTree = "<group>"; };
 		57CFD1AF640A4F90ACA9AF92 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		58BF0C76C65D465EBB74D111 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
@@ -666,7 +664,6 @@
 				AA99E994593F4F89A9F1EB2E /* MaterialIcons.ttf */,
 				BEBA2EB9BC3F41218F8B36D0 /* Octicons.ttf */,
 				155BFACCF0A34E6FB9DFB331 /* SimpleLineIcons.ttf */,
-				3E3AC25A1EE75899008E4A59 /* logo.svg */,
 				57CFD1AF640A4F90ACA9AF92 /* Zocial.ttf */,
 			);
 			name = Resources;
@@ -1119,7 +1116,6 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				7E52DD95FD49476AA949F9F1 /* Entypo.ttf in Resources */,
 				588B30B0EAE64EDEB18B5C24 /* EvilIcons.ttf in Resources */,
-				3E3AC25B1EE75899008E4A59 /* logo.svg in Resources */,
 				B7C3F3EA68AF477B91238B23 /* FontAwesome.ttf in Resources */,
 				64365898BA6F4EBF884A192C /* Foundation.ttf in Resources */,
 				0866F2BEBD384A4882DB1042 /* Ionicons.ttf in Resources */,
