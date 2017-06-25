@@ -6,8 +6,9 @@
 Before installation, you need to have the following tools ready in your machine.
 
 Follow the steps in [React Native Getting Started](https://facebook.github.io/react-native/docs/getting-started.html) tutorial.
-    * Node.js - Tested only on 6.10.3
-    * yarn - Tried with `npm` but it fails. 
+
+* Node.js - Tested only on 6.10.3
+* yarn - Tried with `npm` but it fails. 
 
 Execute the following script 
 
