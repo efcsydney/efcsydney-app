@@ -1,7 +1,7 @@
 # README #
 
 
-### Install ###
+### Getting Started ###
 
 Before installation, you need to have the following tools ready in your machine.
 
