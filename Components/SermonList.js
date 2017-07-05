@@ -41,8 +41,8 @@ export default class SermonList extends Component {
 
     fetchFile(path).then(data => {
       this.props.navigator.push({
+        screen: 'efcSermon2.Sermon',
         title,
-        component: Sermon,
         passProps: {
           path,
           info: data.dirinfo,
