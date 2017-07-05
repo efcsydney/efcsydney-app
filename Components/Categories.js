@@ -49,6 +49,9 @@ export default class Categories extends Component {
         navigator.push({
           screen: 'efcSermon2.SermonList',
           title: translate(item.name),
+          navigatorStyle: {
+            navBarBackgroundColor: '#f9bd49'
+          },
           passProps: {
             path,
             info: data.dirinfo,

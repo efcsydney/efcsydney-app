@@ -43,6 +43,9 @@ export default class SermonList extends Component {
       this.props.navigator.push({
         screen: 'efcSermon2.Sermon',
         title,
+        navigatorStyle: {
+          navBarBackgroundColor: '#f9bd49'
+        },
         passProps: {
           path,
           info: data.dirinfo,

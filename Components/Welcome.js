@@ -12,6 +12,9 @@ export default class Welcome extends Component {
         screen: 'efcSermon2.Categories',
         title: '分類',
         backButtonHidden: true,
+        navigatorStyle: {
+          navBarBackgroundColor: '#f9bd49'
+        },
         passProps: {
           path,
           info: data.dirinfo,
