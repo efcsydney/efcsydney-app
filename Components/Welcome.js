@@ -5,11 +5,13 @@ import { fetchFile } from '../Utils/api';
 
 export default class Welcome extends Component {
   componentDidMount() {
+    const { navigator } = this.props;
     const path = '/sermon';
     fetchFile(path).then(data => {
-      this.props.navigator.replace({
+      navigator.push({
+        screen: 'efcSermon2.Categories',
         title: '分類',
-        component: Categories,
+        backButtonHidden: true,
         passProps: {
           path,
           info: data.dirinfo,

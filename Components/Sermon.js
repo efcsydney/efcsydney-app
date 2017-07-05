@@ -133,12 +133,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#eee',
   },
-  'container--portrait': {
-    marginTop: 65
-  },
-  'container--landscape': {
-    marginTop: 32
-  },
   // Info
   info: {
     alignItems: 'center',

@@ -41,14 +41,16 @@ export default class Categories extends Component {
       error: ''
     });
 
+    const { navigator } = this.props;
     const path = `/sermon/${item.file}`;
+
     fetchFile(path)
       .then(data => {
-        this.props.navigator.push({
+        navigator.push({
+          screen: 'efcSermon2.SermonList',
           title: translate(item.name),
-          component: SermonList,
-          passProps: { 
-            path, 
+          passProps: {
+            path,
             info: data.dirinfo,
             items: filterList(data.items)
           }
@@ -68,7 +70,6 @@ export default class Categories extends Component {
   };
   render() {
     const items = this.props.items.map(normalizeItem);
-
     return (
       <View style={styles.container}>
         {items.map(item => {
@@ -102,7 +103,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     flex: 1,
     padding: 10,
-    marginTop: 64,
     marginBottom: -10
   },
   indicator: {
@@ -142,5 +142,5 @@ const styles = StyleSheet.create({
   },
   itemWrapSpecial: {
     //backgroundColor: '#fde3f3',
-  },
+  }
 });
