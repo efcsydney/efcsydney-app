@@ -8,9 +8,8 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
-import { fetchFile } from '../Utils/api';
-import { filterList, decode, normalizeItem } from '../Utils/helper';
-import SermonList from './SermonList';
+import { fetchFile } from '../utils/api';
+import { filterList, decode, normalizeItem } from '../utils/helper';
 
 function translate(name) {
   if (name === 'Mandarin') {

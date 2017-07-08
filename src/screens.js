@@ -1,9 +1,9 @@
 import { Navigation } from 'react-native-navigation';
 
-import Welcome from './Components/Welcome';
-import Categories from './Components/Categories';
-import SermonList from './Components/SermonList';
-import Sermon from './Components/Sermon';
+import Welcome from './containers/Welcome';
+import Categories from './containers/Categories';
+import SermonList from './containers/SermonList';
+import Sermon from './containers/Sermon';
 
 export function registerScreens(store, Provider) {
   Navigation.registerComponent('efcSermon2.Welcome', () => Welcome, store, Provider);

@@ -9,9 +9,8 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
-import Sermon from './Sermon';
-import { fetchFile } from '../Utils/api';
-import { filterList, decode, normalizeItem } from '../Utils/helper';
+import { fetchFile } from '../utils/api';
+import { filterList, decode, normalizeItem } from '../utils/helper';
 
 export default class SermonList extends Component {
   constructor(props) {

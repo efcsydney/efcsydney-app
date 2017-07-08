@@ -8,15 +8,15 @@ import {
   Text,
   View
 } from 'react-native';
-import { fetchFile } from '../Utils/api';
+import { fetchFile } from '../utils/api';
 import {
   decode,
   findNameByExtension,
   mapImageSizes,
   getColor
-} from '../Utils/helper';
-import InlinePlayer from './InlinePlayer';
-import SlideShow from './SlideShow';
+} from '../utils/helper';
+import InlinePlayer from '../components/InlinePlayer';
+import SlideShow from '../components/SlideShow';
 import Orientation from 'react-native-orientation';
 
 export default class Sermon extends Component {

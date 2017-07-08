@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Player } from 'react-native-audio-toolkit';
 import PlayButton from './PlayButton';
-import {formatTime} from '../Utils/helper.js';
+import {formatTime} from '../utils/helper.js';
 
 export default class InlinePlayer extends Component {
   static propTypes = {

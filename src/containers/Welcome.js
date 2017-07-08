@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
-import { fetchFile } from '../Utils/api';
+import { fetchFile } from '../utils/api';
 import { connect } from 'react-redux';
 
 export default connect(state => {
@@ -31,7 +31,7 @@ export default connect(state => {
     return (
       <View style={styles.container}>
         <View style={styles.logoWrapper}>
-          <Image style={styles.logo} source={require('../Assets/logo.png')} />
+          <Image style={styles.logo} source={require('../assets/logo.png')} />
         </View>
         <View style={{ flex: 2, marginLeft: -15 }}>
           <Text style={styles.welcome}>
