@@ -1,3 +1,3 @@
-import App from './Containers/App';
+import App from './src/containers/App';
 
 new App();
