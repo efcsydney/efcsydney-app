@@ -15,7 +15,10 @@
 		"react-native-navigation": "latest",
 		"react-native-orientation": "git+https://github.com/yamill/react-native-orientation.git",
 		"react-native-swiper": "^1.5.4",
-		"react-native-vector-icons": "^4.2.0"
+		"react-native-vector-icons": "^4.2.0",
+		"react-redux": "^5.0.5",
+		"redux": "^3.7.1",
+		"redux-actions": "^2.2.1"
 	},
 	"devDependencies": {
 		"babel-jest": "20.0.3",

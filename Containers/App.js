@@ -1,18 +1,42 @@
-import React, { Component } from 'react';
-import { registerScreens } from '../screens';
-
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
+import { registerScreens } from '../screens';
+import reducer, {changeOrientation} from '../Reducers';
+import Orientation from 'react-native-orientation';
 
-registerScreens();
+const store = createStore(reducer);
 
-Navigation.startSingleScreenApp({
-  screen: {
-    screen: 'efcSermon2.Welcome',
-    title: '雪梨台福證道',
-    navigatorStyle: {
-      navBarBackgroundColor: '#f9bd49',
-      navBarHidden: true
-    },
-    navigatorButtons: {}
+registerScreens(store, Provider);
+
+export default class App {
+  constructor() {
+    const orientation = Orientation.getInitialOrientation().toLowerCase();
+    store.subscribe(this.onStoreUpdate.bind(this));
+    store.dispatch(changeOrientation(orientation));
   }
-});
+  onStoreUpdate() {
+    if (!this.isInitialized) {
+      this.startApp();
+      this.isInitialized = true;
+    }
+  }
+  startApp() {
+    Orientation.addOrientationListener(orientation => {
+      changeOrientation(orientation.toLowerCase());
+    });
+
+    Navigation.startSingleScreenApp({
+      screen: {
+        screen: 'efcSermon2.Welcome',
+        title: 'EFC Sydney Church',
+        navigatorStyle: {
+            navBarBackgroundColor: '#f9bd49',
+            navBarHidden: true
+        },
+        navigatorButtons: {}
+      }
+    });
+
+  }
+}
