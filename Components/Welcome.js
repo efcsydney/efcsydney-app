@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
-import Categories from './Categories';
 import { fetchFile } from '../Utils/api';
+import { connect } from 'react-redux';
 
-export default class Welcome extends Component {
+export default connect(state => {
+  return {
+    orientation: state.orientation
+  };
+})(class Welcome extends Component {
   componentDidMount() {
     const { navigator } = this.props;
     const path = '/sermon';
@@ -40,7 +44,7 @@ export default class Welcome extends Component {
       </View>
     );
   }
-}
+});
 
 const styles = StyleSheet.create({
   container: {
