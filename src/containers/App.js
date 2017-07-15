@@ -1,11 +1,13 @@
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
+import logger from 'redux-logger';
 import { registerScreens } from '../screens';
-import reducer, {changeOrientation} from '../redux';
+import reducer from '../redux';
+import {changeOrientation} from '../redux/app';
 import Orientation from 'react-native-orientation';
 
-const store = createStore(reducer);
+const store = createStore(reducer, applyMiddleware(logger));
 
 registerScreens(store, Provider);
 
