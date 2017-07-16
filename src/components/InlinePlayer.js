@@ -92,11 +92,9 @@ export default class InlinePlayer extends Component {
           isPlaying={isPlaying}
           onPress={this.handlePress}
         />
-        {isReady && (
         <Text style={styles.info}>
           {formatTime(currentTime)} / {formatTime(duration)}
         </Text>
-        )}
       </View>
     );
   }
@@ -106,7 +104,7 @@ const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 60
+    width: 75
   },
   info: {
     color: '#666',

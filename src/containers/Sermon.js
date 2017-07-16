@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Player } from 'react-native-audio-toolkit';
 import {
   ActivityIndicator,
@@ -17,25 +18,18 @@ import {
 } from '../utils/helper';
 import InlinePlayer from '../components/InlinePlayer';
 import SlideShow from '../components/SlideShow';
-import Orientation from 'react-native-orientation';
 
-export default class Sermon extends Component {
+export default connect(({app: {orientation}}) => ({orientation}))
+(class Sermon extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
-      orientation: null,
       slides: []
     };
   }
-  handleOrientationChange = (orientation) => {
-    this.setState({orientation: orientation.toLowerCase()});
-  };
   componentDidMount() {
     const { items, path } = this.props;
-
-    this.setState({orientation: Orientation.getInitialOrientation().toLowerCase()});
-    Orientation.addOrientationListener(this.handleOrientationChange);
 
     if (!items || !items.length) {
       return;
@@ -64,13 +58,11 @@ export default class Sermon extends Component {
   }
   componentWillUnmount() {
     if (this.player) this.player.destroy();
-    Orientation.removeOrientationListener(this.handleOrientationChange);
   }
   render() {
-    const { path, info, items } = this.props;
-    const { isLoading, orientation, slides } = this.state;
+    const { orientation, path, info, items } = this.props;
+    const { isLoading, slides } = this.state;
     const isPortrait = (orientation === 'portrait');
-    const isLandscape = (orientation === 'landscape');
     const speaker = decode(info.Speaker);
     const infoMediaStyle = StyleSheet.create({
       overwrite: {
@@ -125,7 +117,7 @@ export default class Sermon extends Component {
       </View>
     );
   }
-}
+})
 
 const styles = StyleSheet.create({
   container: {
@@ -171,7 +163,7 @@ const styles = StyleSheet.create({
   },
   // Title
   title: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
     backgroundColor: '#fff',
     display: 'flex',
     flexDirection: 'row',
