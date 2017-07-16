@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
@@ -17,6 +18,12 @@ export default class App {
     store.subscribe(this.onStoreUpdate.bind(this));
     store.dispatch(changeOrientation(orientation));
   }
+  handleOrientationChange = (orientation) => {
+    orientation = orientation.toLowerCase();
+    if (orientation === 'portrait' || orientation === 'landscape') {
+      store.dispatch(changeOrientation(orientation));
+    }
+  }
   onStoreUpdate() {
     if (!this.isInitialized) {
       this.startApp();
@@ -24,9 +31,7 @@ export default class App {
     }
   }
   startApp() {
-    Orientation.addOrientationListener(orientation => {
-      changeOrientation(orientation.toLowerCase());
-    });
+    Orientation.addOrientationListener(_.debounce(this.handleOrientationChange, 500));
 
     Navigation.startSingleScreenApp({
       screen: {
