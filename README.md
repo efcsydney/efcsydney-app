@@ -14,7 +14,7 @@ Execute the following script
 
 ```
 #!bash
-git clone git@bitbucket.org:josephj/efcsermon2.git;
+git clone git@bitbucket.org:efcsydney/efcsydney-app.git;
 cd efcSermon2;
 yarn 
 ```
