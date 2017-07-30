@@ -77,7 +77,7 @@ export default connect(({app: {orientation}}) => ({orientation}))
       : null;
 
     return (
-      <View style={[styles.container, styles[`container--${orientation}`]]}>
+      <ScrollView style={[styles.container, styles[`container--${orientation}`]]}>
         {hasHeader &&
           <View style={styles.info}>
             <View style={[styles.infoMedia, infoMediaStyle.overwrite]}>
@@ -110,29 +110,25 @@ export default connect(({app: {orientation}}) => ({orientation}))
             <ActivityIndicator color="#fff" animating={true} size="small" />}
           {!isLoading && slides.length > 0 && <SlideShow slides={slides} />}
         </View>
-        {isPortrait && !_.isEmpty(info.desc) &&
-          <ScrollView style={styles.descWrap}>
+        {!_.isEmpty(info.desc) &&
+          <View style={styles.descWrap}>
             <Text style={styles.desc}>{decode(info.desc)}</Text>
-          </ScrollView>}
-      </View>
+          </View>}
+      </ScrollView>
     );
   }
 })
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#eee',
-  },
   // Info
   info: {
+    backgroundColor: '#eee',
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
     paddingLeft: 10,
     paddingTop: 10,
-    marginBottom: 10
+    paddingBottom: 10
   },
   infoMedia: {
     alignContent: 'center',
@@ -186,27 +182,23 @@ const styles = StyleSheet.create({
   },
   // Slide
   swiperWrap: {
+    display: 'flex',
     backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center'
   },
   'swiperWrap--landscape': {
-    flex: 2
+    height: 200
   },
   'swiperWrap--portrait': {
     height: 250
   },
   // Description
   descWrap: {
-    margin: 10,
-    padding: 10,
-    backgroundColor: '#fff',
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    flex: 1
+    padding: 20,
   },
   desc: {
-    lineHeight: 20
+    lineHeight: 22,
+    fontSize: 15
   }
 });
