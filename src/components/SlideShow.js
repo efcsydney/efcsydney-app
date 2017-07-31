@@ -50,13 +50,12 @@ const styles = StyleSheet.create({
   },
   pageInfo: {
     alignItems: 'center',
-    backgroundColor: '#333',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     borderRadius: 12,
-    bottom: -15,
+    bottom: 5,
     display: 'flex',
     left: '50%',
     marginLeft: -30,
-    opacity: 0.7,
     padding: 4,
     position: 'absolute',
     width: 60
