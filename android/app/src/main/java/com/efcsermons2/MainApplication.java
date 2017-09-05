@@ -7,7 +7,7 @@ import android.app.Application;
 import com.reactnativenavigation.NavigationApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.github.yamill.orientation.OrientationPackage;
-import com.futurice.rctaudiotoolkit.AudioPackage;
+import com.zmxv.RNSound.RNSoundPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -26,7 +26,7 @@ public class MainApplication extends NavigationApplication {
     return Arrays.<ReactPackage>asList(
       new VectorIconsPackage(),
       new OrientationPackage(),
-      new AudioPackage()
+      new RNSoundPackage()
     );
   }
 

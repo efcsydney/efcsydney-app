@@ -106,8 +106,8 @@ export function findNameByExtension(items = [], extension, isDir = false) {
   return _.get(itemInfo, 'name');
 }
 
-export function formatTime(millisec) {
-  let seconds = (millisec / 1000).toFixed(0);
+export function formatTime(sec) {
+  let seconds = (sec).toFixed(0);
   let minutes = Math.floor(seconds / 60);
   let hours = '';
   if (minutes > 59) {

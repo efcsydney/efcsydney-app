@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { Player } from 'react-native-audio-toolkit';
+import Sound from 'react-native-sound';
 import PlayButton from './PlayButton';
-import {formatTime} from '../utils/helper.js';
+import { formatTime } from '../utils/helper.js';
+
+Sound.setCategory('Playback');
 
 export default class InlinePlayer extends Component {
   static propTypes = {
@@ -22,76 +24,81 @@ export default class InlinePlayer extends Component {
     };
   }
   componentWillUnmount() {
-    if (this.player) {
-      this.player.destroy();
+    const player = this.player;
+
+    if (player) {
+      player.release();
     }
+
     if (this.timer) {
       clearInterval(this.timer);
     }
   }
+  handleEnd = () => {
+    this.player.stop();
+    clearInterval(this.timer);
+    this.setState({
+      currentTime: 0,
+      isPlaying: false
+    });
+  }
   handlePress = items => {
-    const { isLoading, isPlaying } = this.state;
+    const { isLoading, isPlaying, isReady } = this.state;
     const { url } = this.props;
     let player = this.player;
 
-    if (isLoading) {
+    if (isLoading) return;
+
+    // 1. Init
+    if (!isReady) {
+      this.preparePlayer(url).then(player => this.play(), error => console.log(error));
       return;
     }
-
-    // Play -> Pause
+    // 2. Ready/Pause -> Play
+    if (isReady && !isPlaying) {
+      this.play();
+      return;
+    }
+    // 3. Play -> Pause
     if (player && isPlaying) {
       this.setState({ isPlaying: false });
+      clearInterval(this.timer);
       player.pause();
       return;
     }
-
-    // Pause -> Play
-    if (player && !isPlaying) {
-      this.setState({ isPlaying: true });
-      player.play();
-      return;
-    }
-
-    // Initial
-    this.player = new Player(url);
-    this.player.on('error', () => {
-      this.setState({
-        isLoading: false
-      });
-    });
-    this.player.on('ended', () => {
-      this.setState({
-        isPlaying: false
-      });
-    });
-    this.player.prepare(() => {
-      this.setState({
-        duration: this.player.duration,
-        isLoading: false,
-        isPlaying: true,
-        isReady: true
-      });
-      this.player.play();
-      this.timer = setInterval(() => {
-        this.setState({
-          currentTime: this.player.currentTime,
-          duration: this.player.duration
-        });
-      }, 1000);
-    });
-
-    this.setState({ isLoading: true });
   };
+  play() {
+    const player = this.player;
+    player.play(this.handleEnd);
+    this.setState({ isPlaying: true });
+    this.timer = setInterval(() => {
+      player.getCurrentTime(sec => this.setState({ currentTime: sec }));
+    }, 1000);
+  }
+  preparePlayer(url) {
+    this.setState({ isLoading: true });
+    return new Promise((resolve, reject) => {
+      this.player = new Sound(url, '', error => {
+        if (error) {
+          this.setState({ isLoading: false });
+          reject(error);
+          return;
+        }
+        this.setState({
+          duration: this.player.getDuration(),
+          isLoading: false,
+          isReady: true
+        });
+        resolve(this.player);
+      });
+    });
+  }
   render() {
     const { currentTime, duration, isLoading, isPlaying, isReady } = this.state;
 
     return (
       <View style={styles.wrapper}>
-        <PlayButton
-          isLoading={isLoading}
-          isPlaying={isPlaying}
-          onPress={this.handlePress}
-        />
+        <PlayButton isLoading={isLoading} isPlaying={isPlaying} onPress={this.handlePress} />
         <Text style={styles.info}>
           {formatTime(currentTime)} / {formatTime(duration)}
         </Text>
