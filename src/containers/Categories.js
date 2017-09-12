@@ -27,9 +27,20 @@ export default class Categories extends Component {
     super(props);
     this.state = {
       isLoading: false,
-      error: false
+      error: false,
+      items: []
     };
   }
+
+  componentWillMount() {
+    const { navigator } = this.props;
+    const path = '/sermon';
+    fetchFile(path).then(data => {
+      this.setState({ items: data.items })
+    });
+  }
+
+
   handlePress = item => {
     if (this.state.isLoading) {
       return;
@@ -71,7 +82,7 @@ export default class Categories extends Component {
       });
   };
   render() {
-    const items = this.props.items.map(normalizeItem);
+    const items = this.state.items.map(normalizeItem);
     return (
       <View style={styles.container}>
         {items.map(item => {

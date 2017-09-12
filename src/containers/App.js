@@ -35,11 +35,12 @@ export default class App {
 
     Navigation.startSingleScreenApp({
       screen: {
-        screen: 'efcSermon2.Welcome',
-        title: 'EFC Sydney Church',
+        screen: 'efcSermon2.Categories',
+        title: '分類',
         navigatorStyle: {
             navBarBackgroundColor: '#f9bd49',
-            navBarHidden: true
+            navBarHidden: false,
+            navBarTitleTextCentered: true
         },
         navigatorButtons: {}
       }
